@@ -1,0 +1,189 @@
+-GERAR GRAFICOS:
+import matplotlib.pyplot as plt
+import seaborn as sns
+
+# Supondo que df seja seu DataFrame e você já o tenha definido anteriormente.
+gdp = df['2020']
+
+plt.figure(figsize=(10, 6))  # Define o tamanho da figura
+sns.histplot(data=gdp, bins=20, kde=True, color='skyblue')  # Adiciona KDE (Kernel Density Estimate) para suavizar a distribuição
+plt.title('Distribuição do PIB per capita em 2020')  # Adiciona um título ao gráfico
+plt.xlabel('PIB per capita (US$)')  # Define o rótulo do eixo X
+plt.ylabel('Frequência')  # Define o rótulo do eixo Y
+plt.grid(True)  # Adiciona grade ao gráfico para melhor visualização
+plt.show()  # Exibe o gráfico
+
+--MEDIA:
+O trecho de código abaixo mostra como calcular a média de uma coluna de um dataframe.
+
+Faça uma figura mostrando como a média do PIB per capita de todos os países do mundo se comportou desde 1960 até 2020.
+
+gdp_medio = df['1960'].mean()
+print(gdp_medio)
+
+.GRAFICO:
+import pandas as pd
+import matplotlib.pyplot as plt
+import seaborn as sns
+
+# Calcula a média do PIB per capita para cada ano
+mean_gdp_per_year = df.loc[:, '1960':'2020'].mean()
+
+# Transformando a série em um DataFrame para facilitar a plotagem
+mean_gdp_per_year = mean_gdp_per_year.reset_index()
+mean_gdp_per_year.columns = ['Year', 'Mean GDP per Capita']
+
+# Converte 'Year' de string para inteiro
+mean_gdp_per_year['Year'] = mean_gdp_per_year['Year'].astype(int)
+
+# Cria a figura e o eixo para o plot
+plt.figure(figsize=(12, 6))
+
+# Utiliza o Seaborn para criar um gráfico de linha
+sns.lineplot(data=mean_gdp_per_year, x='Year', y='Mean GDP per Capita', marker='o', color='green')
+
+# Adicionando título e rótulos aos eixos
+plt.title('Média do PIB per Capita Mundial (1960-2020)')
+plt.xlabel('Ano')
+plt.ylabel('Média do PIB per Capita (US$)')
+
+# Melhorando a visualização do eixo x
+plt.xticks(rotation=45)
+
+plt.grid(True)  # Adiciona linhas de grade para melhor visualização
+plt.tight_layout()  # Ajusta automaticamente os parâmetros da subplot para dar espaço suficiente
+plt.show()  # Exibe o gráfico
+
+
+-MEDIANA:
+gdp_mediano = df['1960'].median()
+print(gdp_mediano)
+197.897848206733
+
+.GRAFICO:
+import pandas as pd
+import matplotlib.pyplot as plt
+import seaborn as sns
+
+# Calcula a mediana do PIB per capita para cada ano
+median_gdp_per_year = df.loc[:, '1960':'2020'].median()
+
+# Resetando o índice para transformar os anos em uma coluna
+median_gdp_per_year = median_gdp_per_year.reset_index()
+median_gdp_per_year.columns = ['Year', 'Median GDP per Capita']
+
+# Converte 'Year' de string para inteiro para plotagem
+median_gdp_per_year['Year'] = median_gdp_per_year['Year'].astype(int)
+
+# Cria a figura e o eixo para o plot
+plt.figure(figsize=(12, 6))
+
+# Utiliza o Seaborn para criar um gráfico de linha
+sns.lineplot(data=median_gdp_per_year, x='Year', y='Median GDP per Capita', marker='o')
+
+# Adicionando título e rótulos aos eixos
+plt.title('Mediana do PIB per Capita Mundial (1960-2020)')
+plt.xlabel('Ano')
+plt.ylabel('Mediana do PIB per Capita (US$)')
+
+# Melhorando a visualização do eixo x
+plt.xticks(rotation=45)
+
+plt.grid(True)  # Adiciona linhas de grade para melhor visualização
+plt.tight_layout()  # Ajusta automaticamente os parâmetros da subplot para dar espaço suficiente
+plt.show()  # Exibe o gráfico
+
+-DESVIO PADRÃO:
+Objetivo: calcular o desvio padrão de um conjunto de dados para entender sua dispersão
+
+O desvio padrão é uma medida de dispersão, isto é, valores maiores do desvio padrão significam que as medidas estão mais “espalhadas”. Ele é calculado como a média do quadrado da diferença em relação à média.
+O desvio padrão significa a diferença esperada entre um elemento qualquer e a média da população. Isso significa que, por exemplo, que se a média de notas de uma população de alunos for 8 e o desvio padrão for 2, então uma pessoa que tirou 7 está a meio desvio padrão da média, o que está dentro do desvio tipicamente esperado. Porém, se o desvio padrão for 0.5, então essa pessoa que tirou 7 está dois desvios padrões longe da média, o que significa uma diferença bem mais atípica.
+
+.Cálculo e Plotagem do Desvio Padrão do PIB per Capita:
+
+import pandas as pd
+import matplotlib.pyplot as plt
+import seaborn as sns
+
+# Calcula o desvio padrão do PIB per capita para cada ano
+std_gdp_per_year = df.loc[:, '1960':'2020'].std()
+
+# Calcula a média do PIB per capita para cada ano
+mean_gdp_per_year = df.loc[:, '1960':'2020'].mean()
+
+# Calcula a razão entre o desvio padrão e a média para cada ano
+ratio_std_mean = std_gdp_per_year / mean_gdp_per_year
+
+# Transformando as séries em DataFrames para facilitar a plotagem
+std_gdp_per_year = std_gdp_per_year.reset_index()
+std_gdp_per_year.columns = ['Year', 'Std GDP per Capita']
+mean_gdp_per_year = mean_gdp_per_year.reset_index()
+ratio_std_mean = ratio_std_mean.reset_index()
+ratio_std_mean.columns = ['Year', 'Ratio Std/Mean']
+
+# Converte 'Year' de string para inteiro
+std_gdp_per_year['Year'] = std_gdp_per_year['Year'].astype(int)
+ratio_std_mean['Year'] = ratio_std_mean['Year'].astype(int)
+
+# Cria a figura para o desvio padrão
+plt.figure(figsize=(12, 6))
+sns.lineplot(data=std_gdp_per_year, x='Year', y='Std GDP per Capita', marker='o', color='blue')
+plt.title('Desvio Padrão do PIB per Capita Mundial (1960-2020)')
+plt.xlabel('Ano')
+plt.ylabel('Desvio Padrão do PIB per Capita (US$)')
+plt.xticks(rotation=45)
+plt.grid(True)
+plt.tight_layout()
+plt.show()
+
+-Cria a figura para a razão entre o desvio padrão e a média
+plt.figure(figsize=(12, 6))
+sns.lineplot(data=ratio_std_mean, x='Year', y='Ratio Std/Mean', marker='o', color='red')
+plt.title('Razão entre o Desvio Padrão e a Média do PIB per Capita Mundial (1960-2020)')
+plt.xlabel('Ano')
+plt.ylabel('Razão Desvio Padrão/Média')
+plt.xticks(rotation=45)
+plt.grid(True)
+plt.tight_layout()
+plt.show()
+
+-QUANTIL(FRAÇÃO)/PERCENTIL(PORCENTAGEM):
+Objetivo: calcular percentis para evidenciar a dispersão em medidas
+
+Uma outra medida de dispersão é o percentil. O x-percentil, ou percentil x, é o valor abaixo do qual está X%
+ de seu conjunto. O raciocínio é semelhante ao da mediana. Na verdade, o percentil 50 é exatamente a mediana.
+
+Um quantil é exatamente o mesmo, exceto que ao invés de medir quantidades em porcentagens elas são medidas em frações, isto é, a mediana é o quantil  0.5
+.
+
+
+
+.GRAFICO:
+import matplotlib.pyplot as plt
+
+# Supondo que 'df' seja o seu DataFrame com os dados do PIB per capita
+ano = range(1960, 2021)  # Ajuste para incluir até o ano de 2020
+gdp_pob = []
+gdp_ric = []
+
+for a in ano:
+    gdp_pob.append(df[str(a)].quantile(q=0.03))  # PIB per capita nos 3% países mais pobres
+    gdp_ric.append(df[str(a)].quantile(q=0.97))  # PIB per capita nos 3% países mais ricos
+
+# Plotagem
+plt.figure(figsize=(10, 6))
+plt.plot(ano, gdp_pob, label='3% mais pobres', color='red')
+plt.plot(ano, gdp_ric, label='3% mais ricos', color='green')
+plt.legend()
+plt.semilogy()  # Altera a escala do eixo y para logarítmica
+plt.xlabel('Ano')
+plt.ylabel('PIB per Capita (US$)')
+plt.title('Evolução do PIB per Capita: 3% países mais pobres vs 3% mais ricos (1960-2020)')
+plt.grid(True)
+plt.tight_layout()
+plt.show()
+
+-BOXPLOT:
+Um boxplot é um tipo de figura muito comum em estatística que mostra a dispersão de um conjunto de dados. Tipicamente, ele marca a mediana e os quantis 0.25 e 0.75.
+
+A diferença entre os quantis 0.75 e 0.25  é chamada de Inter-Quartile Range (IQR). Elementos cuja distância a um quartil é maior que 1.5 x IQR são considerados outliers.
